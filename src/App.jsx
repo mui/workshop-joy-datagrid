@@ -2,6 +2,7 @@ import CssBaseline from "@mui/joy/CssBaseline";
 import Container from "@mui/joy/Container";
 import Typography from "@mui/joy/Typography";
 import { DataGrid } from "@mui/x-data-grid";
+import { unstable_joySlots as joySlots } from "@mui/x-data-grid/joy";
 
 const DATA = [
   {
@@ -33,6 +34,7 @@ function App() {
           },
         ]}
         rows={DATA}
+        slots={joySlots} // to learn more about component slots, visit: https://mui.com/x/react-data-grid/components/#component-slots
       />
     </Container>
   );
