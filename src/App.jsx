@@ -32,6 +32,19 @@ function App() {
             field: "id",
             headerName: "ID",
           },
+          {
+            field: "name",
+            headerName: "Name",
+            width: 160,
+            editable: true,
+          },
+          {
+            field: "price",
+            headerName: "Price",
+            width: 160,
+            editable: true,
+            type: "number",
+          },
         ]}
         rows={DATA}
         slots={joySlots} // to learn more about component slots, visit: https://mui.com/x/react-data-grid/components/#component-slots
