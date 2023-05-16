@@ -45,6 +45,15 @@ function App() {
             editable: true,
             type: "number",
           },
+          {
+            field: "manufacturedDate",
+            headerName: "Manufactured date",
+            width: 160,
+            editable: true,
+            type: "date",
+            // to learn more, visit: https://mui.com/x/react-data-grid/column-definition/#value-formatter
+            valueFormatter: (params) => new Date(params.value).toDateString(),
+          },
         ]}
         rows={DATA}
         slots={joySlots} // to learn more about component slots, visit: https://mui.com/x/react-data-grid/components/#component-slots
