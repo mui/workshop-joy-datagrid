@@ -1,4 +1,7 @@
 import Autocomplete from "@mui/joy/Autocomplete";
+import AutocompleteOption from "@mui/joy/AutocompleteOption";
+import ListItemDecorator from "@mui/joy/ListItemDecorator";
+import ListItemContent from "@mui/joy/ListItemContent";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Container from "@mui/joy/Container";
 import Typography from "@mui/joy/Typography";
@@ -46,6 +49,25 @@ function App() {
                 openOnFocus
                 options={countries}
                 getOptionLabel={(option) => option.label}
+                renderOption={(props, option) => (
+                  <AutocompleteOption {...props}>
+                    <ListItemDecorator>
+                      <img
+                        loading="lazy"
+                        width="20"
+                        src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                        srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                        alt=""
+                      />
+                    </ListItemDecorator>
+                    <ListItemContent sx={{ fontSize: "sm" }}>
+                      {option.label}
+                      <Typography level="body3">
+                        ({option.code}) +{option.phone}
+                      </Typography>
+                    </ListItemContent>
+                  </AutocompleteOption>
+                )}
                 variant="plain" // see all the variants at https://mui.com/joy-ui/react-autocomplete/#variants
                 sx={{
                   "--Input-focusedHighlight": "transparent", // to remove the focused highlight
