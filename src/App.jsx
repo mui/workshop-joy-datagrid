@@ -121,6 +121,8 @@ function App() {
           {
             field: "manufacturedCountry",
             headerName: "Manufactured country",
+            type: 'singleSelect',
+            valueOptions: countries,
             width: 240,
             editable: true,
             renderCell: (params) =>
@@ -141,8 +143,9 @@ function App() {
                 placeholder="Choose a country"
                 autoFocus
                 openOnFocus
-                options={countries}
+                options={params.colDef.valueOptions}
                 getOptionLabel={(option) => option.label}
+                isOptionEqualToValue={(option, value) => value.code === option.code}
                 renderOption={(props, option) => (
                   <AutocompleteOption {...props}>
                     <ListItemDecorator>

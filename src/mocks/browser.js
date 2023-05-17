@@ -9,6 +9,7 @@ const db = factory({
     manufacturedCountry: {
       code: String,
       label: String,
+      value: String,
     },
     price: Number,
   },
@@ -18,7 +19,11 @@ db.product.create({
   id: "1",
   name: "spray",
   manufacturedDate: new Date().toString(),
-  manufacturedCountry: null,
+  manufacturedCountry: {
+    code: 'AD',
+    label: 'Andorra',
+    value: 'AD',
+  },
   price: 200,
 });
 db.product.create({
