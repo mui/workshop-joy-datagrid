@@ -72,6 +72,13 @@ function App() {
       <DataGrid
         editMode="row"
         processRowUpdate={(newRow) => {
+          const isExistingRow = newRow.id !== "temporary-id"; // check if row is new
+          if (isExistingRow) {
+            setRows((prevRows) =>
+              prevRows.map((item) => (item.id === newRow.id ? newRow : item))
+            );
+            return newRow;
+          }
           // triggered when user stop editing a row
           // to learn more, visit: https://mui.com/x/react-data-grid/editing/#persistence
           const newId = uuid(); // generate unique id
