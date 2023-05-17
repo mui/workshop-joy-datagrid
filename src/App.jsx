@@ -39,7 +39,7 @@ function EditToolbar() {
       <Button
         color="primary"
         onClick={() => {
-          const id = "new-row-1"; // `id` is required to create a new row;
+          const id = `__new-${uuid()}`; // `id` is required to create a new row;
           apiRef.current.updateRows([
             {
               id,
@@ -72,6 +72,13 @@ function App() {
       <DataGrid
         editMode="row"
         processRowUpdate={(newRow) => {
+          const isExistingRow = !newRow.id.startsWith("__new-"); // check if row is new
+          if (isExistingRow) {
+            setRows((prevRows) =>
+              prevRows.map((item) => (item.id === newRow.id ? newRow : item))
+            );
+            return newRow;
+          }
           // triggered when user stop editing a row
           // to learn more, visit: https://mui.com/x/react-data-grid/editing/#persistence
           const newId = uuid(); // generate unique id
