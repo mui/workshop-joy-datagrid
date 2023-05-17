@@ -228,10 +228,7 @@ function App() {
         ]}
         rows={rows}
         slots={{ ...joySlots, toolbar: EditToolbar }} // to learn more about component slots, visit: https://mui.com/x/react-data-grid/components/#component-slots
-        sx={{
-          minHeight: 400,
-          "& .MuiDataGrid-virtualScroller": { flexGrow: 1 },
-        }}
+        autoHeight
       />
     </Container>
   );
