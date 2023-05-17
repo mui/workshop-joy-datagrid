@@ -1,8 +1,10 @@
+import Autocomplete from "@mui/joy/Autocomplete";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Container from "@mui/joy/Container";
 import Typography from "@mui/joy/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { unstable_joySlots as joySlots } from "@mui/x-data-grid/joy";
+import countries from "./countries.json";
 
 const DATA = [
   {
@@ -31,6 +33,24 @@ function App() {
           {
             field: "id",
             headerName: "ID",
+          },
+          {
+            field: "countries",
+            headerName: "Shipped countries",
+            width: 240,
+            editable: true,
+            renderEditCell: () => (
+              <Autocomplete
+                placeholder="Choose a country"
+                autoFocus
+                openOnFocus
+                options={countries}
+                getOptionLabel={(option) => option.label}
+                sx={{
+                  width: "100%",
+                }}
+              />
+            ),
           },
           {
             field: "name",
