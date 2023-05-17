@@ -42,7 +42,7 @@ function App() {
             headerName: "Shipped countries",
             width: 240,
             editable: true,
-            renderEditCell: () => (
+            renderEditCell: (params) => (
               <Autocomplete
                 placeholder="Choose a country"
                 autoFocus
@@ -68,6 +68,14 @@ function App() {
                     </ListItemContent>
                   </AutocompleteOption>
                 )}
+                value={params.value || null}
+                onChange={(event, value) => {
+                  params.api.setEditCellValue({
+                    field: params.field,
+                    id: params.id,
+                    value,
+                  });
+                }}
                 variant="plain" // see all the variants at https://mui.com/joy-ui/react-autocomplete/#variants
                 sx={{
                   "--Input-focusedHighlight": "transparent", // to remove the focused highlight
