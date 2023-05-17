@@ -50,11 +50,14 @@ function EditToolbar() {
 
 function App() {
   const [rows, setRows] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
+    setIsLoading(true);
     fetch("/products")
       .then((response) => response.json())
       .then((data) => {
         setRows(data);
+        setIsLoading(false);
       });
   }, []);
   return (
@@ -64,7 +67,7 @@ function App() {
         Joy DataGrid - CRUD Workshop
       </Typography>
       <DataGrid
-        loading={rows.length === 0}
+        loading={isLoading}
         editMode="row"
         processRowUpdate={(newRow) => {
           const isExistingRow = newRow.id !== "temporary-id"; // check if row is new
@@ -193,6 +196,10 @@ function App() {
         ]}
         rows={rows}
         slots={{ ...joySlots, toolbar: EditToolbar }} // to learn more about component slots, visit: https://mui.com/x/react-data-grid/components/#component-slots
+        sx={{
+          minHeight: 400,
+          "& .MuiDataGrid-virtualScroller": { flexGrow: 1 },
+        }}
       />
     </Container>
   );
