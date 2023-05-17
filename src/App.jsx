@@ -1,5 +1,6 @@
 import Autocomplete from "@mui/joy/Autocomplete";
 import AutocompleteOption from "@mui/joy/AutocompleteOption";
+import Box from "@mui/joy/Box";
 import ListItemDecorator from "@mui/joy/ListItemDecorator";
 import ListItemContent from "@mui/joy/ListItemContent";
 import CssBaseline from "@mui/joy/CssBaseline";
@@ -38,10 +39,23 @@ function App() {
             headerName: "ID",
           },
           {
-            field: "countries",
-            headerName: "Shipped countries",
+            field: "manufacturedCountry",
+            headerName: "Manufactured country",
             width: 240,
             editable: true,
+            renderCell: (params) =>
+              params.value ? (
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <img
+                    loading="lazy"
+                    width="20"
+                    src={`https://flagcdn.com/w20/${params.value.code.toLowerCase()}.png`}
+                    srcSet={`https://flagcdn.com/w40/${params.value.code.toLowerCase()}.png 2x`}
+                    alt=""
+                  />
+                  {params.value.label}
+                </Box>
+              ) : null,
             renderEditCell: (params) => (
               <Autocomplete
                 placeholder="Choose a country"
