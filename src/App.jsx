@@ -50,7 +50,7 @@ function EditToolbar() {
 
 function App() {
   const [rows, setRows] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setIsLoading(true);
     fetch("/products")
