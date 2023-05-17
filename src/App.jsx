@@ -69,7 +69,7 @@ function App() {
       <DataGrid
         loading={isLoading}
         editMode="row"
-        processRowUpdate={(newRow) => {
+        processRowUpdate={async (newRow) => {
           const isExistingRow = newRow.id !== "temporary-id"; // check if row is new
           if (isExistingRow) {
             setRows((prevRows) =>
@@ -81,8 +81,24 @@ function App() {
           // to learn more, visit: https://mui.com/x/react-data-grid/editing/#persistence
           const newId = uuid(); // generate unique id
           const updatedRow = { ...newRow, id: newId };
-          setRows((prevRows) => [...prevRows, updatedRow]);
-          return updatedRow;
+
+          setIsLoading(true);
+          const res = await fetch(`/products`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedRow),
+          });
+          if (res.ok) {
+            setIsLoading(false);
+            setRows((prevRows) => [...prevRows, updatedRow]);
+            return updatedRow;
+          } else {
+            setIsLoading(false);
+            // Reject the promise so that the internal state is not updated and the cell remains in edit mode
+            throw new Error("something went wrong!");
+          }
         }}
         columns={[
           {
