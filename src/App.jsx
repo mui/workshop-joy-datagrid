@@ -95,10 +95,14 @@ function App() {
             setRows((prevRows) => [...prevRows, updatedRow]);
             return updatedRow;
           } else {
+            const error = await res.json();
             setIsLoading(false);
             // Reject the promise so that the internal state is not updated and the cell remains in edit mode
-            throw new Error("something went wrong!");
+            throw error;
           }
+        }}
+        onProcessRowUpdateError={(error) => {
+          alert(error.message ?? "Unknow error");
         }}
         columns={[
           {
