@@ -13,8 +13,10 @@ import {
   DataGrid,
   GridToolbarContainer,
   useGridApiContext,
+  GridActionsCellItem,
 } from "@mui/x-data-grid";
 import { unstable_joySlots as joySlots } from "@mui/x-data-grid/joy";
+import DeleteIcon from "@mui/icons-material/Delete";
 import countries from "./countries.json";
 
 const DATA = [
@@ -177,6 +179,23 @@ function App() {
             // to format the date value from `valueGetter`.
             // to learn more, visit: https://mui.com/x/react-data-grid/column-definition/#value-formatter
             valueFormatter: (params) => new Date(params.value).toDateString(),
+          },
+          {
+            field: "actions",
+            type: "actions",
+            getActions: (params) => [
+              <GridActionsCellItem
+                key="delete"
+                icon={<DeleteIcon />}
+                label="Delete"
+                onClick={() => {
+                  setRows((prevRows) =>
+                    prevRows.filter((item) => item.id !== params.row.id)
+                  );
+                }}
+                color="inherit"
+              />,
+            ],
           },
         ]}
         rows={rows}
