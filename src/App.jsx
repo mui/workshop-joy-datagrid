@@ -46,7 +46,9 @@ function App() {
                 openOnFocus
                 options={countries}
                 getOptionLabel={(option) => option.label}
+                variant="plain" // see all the variants at https://mui.com/joy-ui/react-autocomplete/#variants
                 sx={{
+                  "--Input-focusedHighlight": "transparent", // to remove the focused highlight
                   width: "100%",
                 }}
               />
