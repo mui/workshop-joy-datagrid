@@ -1,12 +1,17 @@
 import Autocomplete from "@mui/joy/Autocomplete";
 import AutocompleteOption from "@mui/joy/AutocompleteOption";
 import Box from "@mui/joy/Box";
+import Button from "@mui/joy/Button";
 import ListItemDecorator from "@mui/joy/ListItemDecorator";
 import ListItemContent from "@mui/joy/ListItemContent";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Container from "@mui/joy/Container";
 import Typography from "@mui/joy/Typography";
-import { DataGrid } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbarContainer,
+  useGridApiContext,
+} from "@mui/x-data-grid";
 import { unstable_joySlots as joySlots } from "@mui/x-data-grid/joy";
 import countries from "./countries.json";
 
@@ -24,6 +29,35 @@ const DATA = [
     price: 120,
   },
 ];
+
+function EditToolbar() {
+  const apiRef = useGridApiContext();
+  return (
+    <GridToolbarContainer>
+      <Button
+        color="primary"
+        onClick={() => {
+          const id = "temporary-id"; // `id` is required to create a new row;
+          apiRef.current.updateRows([
+            {
+              id,
+              name: "New",
+              manufacturedDate: null,
+              manufacturedCountry: null,
+              price: 0,
+            },
+          ]);
+          apiRef.current.startRowEditMode({
+            id,
+            fieldToFocus: "manufacturedCountry",
+          });
+        }}
+      >
+        Add record
+      </Button>
+    </GridToolbarContainer>
+  );
+}
 
 function App() {
   return (
@@ -128,7 +162,7 @@ function App() {
           },
         ]}
         rows={DATA}
-        slots={joySlots} // to learn more about component slots, visit: https://mui.com/x/react-data-grid/components/#component-slots
+        slots={{ ...joySlots, toolbar: EditToolbar }} // to learn more about component slots, visit: https://mui.com/x/react-data-grid/components/#component-slots
       />
     </Container>
   );
