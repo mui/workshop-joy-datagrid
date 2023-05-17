@@ -33,6 +33,7 @@ function App() {
         Joy DataGrid - CRUD Workshop
       </Typography>
       <DataGrid
+        editMode="row"
         columns={[
           {
             field: "id",
