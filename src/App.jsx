@@ -72,6 +72,15 @@ function App() {
         processRowUpdate={async (newRow) => {
           const isExistingRow = newRow.id !== "temporary-id"; // check if row is new
           if (isExistingRow) {
+            setIsLoading(true);
+            await fetch(`/products/${newRow.id}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(newRow),
+            });
+            setIsLoading(false);
             setRows((prevRows) =>
               prevRows.map((item) => (item.id === newRow.id ? newRow : item))
             );
@@ -153,7 +162,8 @@ function App() {
                     </ListItemContent>
                   </AutocompleteOption>
                 )}
-                value={params.value || null}
+                // If `code` is not set, it means that the user has not selected any option
+                value={params.value?.code ? params.value : null}
                 onChange={(event, value) => {
                   params.api.setEditCellValue({
                     field: params.field,
