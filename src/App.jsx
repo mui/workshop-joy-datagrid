@@ -209,10 +209,17 @@ function App() {
                 key="delete"
                 icon={<DeleteIcon />}
                 label="Delete"
-                onClick={() => {
-                  setRows((prevRows) =>
-                    prevRows.filter((item) => item.id !== params.row.id)
-                  );
+                onClick={async () => {
+                  setIsLoading(true);
+                  await fetch(`/products/${params.row.id}`, {
+                    method: "DELETE",
+                  });
+                  await fetch("/products")
+                    .then((response) => response.json())
+                    .then((data) => {
+                      setRows(data);
+                    });
+                  setIsLoading(false);
                 }}
                 color="inherit"
               />,
