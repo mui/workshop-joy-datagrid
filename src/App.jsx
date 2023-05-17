@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { v4 as uuid } from "uuid";
 import Autocomplete from "@mui/joy/Autocomplete";
 import AutocompleteOption from "@mui/joy/AutocompleteOption";
 import Box from "@mui/joy/Box";
@@ -60,6 +62,7 @@ function EditToolbar() {
 }
 
 function App() {
+  const [rows, setRows] = useState(DATA);
   return (
     <Container>
       <CssBaseline />
@@ -68,6 +71,14 @@ function App() {
       </Typography>
       <DataGrid
         editMode="row"
+        processRowUpdate={(newRow) => {
+          // triggered when user stop editing a row
+          // to learn more, visit: https://mui.com/x/react-data-grid/editing/#persistence
+          const newId = uuid(); // generate unique id
+          const updatedRow = { ...newRow, id: newId };
+          setRows((prevRows) => [...prevRows, updatedRow]);
+          return updatedRow;
+        }}
         columns={[
           {
             field: "id",
@@ -156,7 +167,7 @@ function App() {
             valueFormatter: (params) => new Date(params.value).toDateString(),
           },
         ]}
-        rows={DATA}
+        rows={rows}
         slots={{ ...joySlots, toolbar: EditToolbar }} // to learn more about component slots, visit: https://mui.com/x/react-data-grid/components/#component-slots
       />
     </Container>
