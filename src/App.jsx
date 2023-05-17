@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import Autocomplete from "@mui/joy/Autocomplete";
 import AutocompleteOption from "@mui/joy/AutocompleteOption";
@@ -18,21 +18,6 @@ import {
 import { unstable_joySlots as joySlots } from "@mui/x-data-grid/joy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import countries from "./countries.json";
-
-const DATA = [
-  {
-    id: "1",
-    name: "spray",
-    manufacturedDate: new Date().toString(),
-    price: 200,
-  },
-  {
-    id: "2",
-    name: "foam",
-    manufacturedDate: new Date("2021-05-22").toString(),
-    price: 120,
-  },
-];
 
 function EditToolbar() {
   const apiRef = useGridApiContext();
@@ -64,7 +49,14 @@ function EditToolbar() {
 }
 
 function App() {
-  const [rows, setRows] = useState(DATA);
+  const [rows, setRows] = useState([]);
+  useEffect(() => {
+    fetch("/products")
+      .then((response) => response.json())
+      .then((data) => {
+        setRows(data);
+      });
+  }, []);
   return (
     <Container>
       <CssBaseline />
@@ -72,6 +64,7 @@ function App() {
         Joy DataGrid - CRUD Workshop
       </Typography>
       <DataGrid
+        loading={rows.length === 0}
         editMode="row"
         processRowUpdate={(newRow) => {
           const isExistingRow = !newRow.id.startsWith("__new-"); // check if row is new
