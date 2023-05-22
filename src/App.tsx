@@ -14,10 +14,12 @@ import {
   GridToolbarContainer,
   useGridApiContext,
   GridActionsCellItem,
+  GridRenderEditCellParams,
 } from "@mui/x-data-grid";
 import { unstable_joySlots as joySlots } from "@mui/x-data-grid/joy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import countries from "./countries.json";
+import { Product } from "./mocks/browser";
 
 function EditToolbar() {
   const apiRef = useGridApiContext();
@@ -49,13 +51,13 @@ function EditToolbar() {
 }
 
 function App() {
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(true);
     fetch("/products")
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: Product[]) => {
         setRows(data);
         setIsLoading(false);
       });
@@ -136,7 +138,16 @@ function App() {
                   {params.value.label}
                 </Box>
               ) : null,
-            renderEditCell: (params) => (
+            renderEditCell: (
+              params: GridRenderEditCellParams<
+                {},
+                {
+                  code: string;
+                  label: string;
+                  phone: string;
+                } | null
+              >
+            ) => (
               <Autocomplete
                 placeholder="Choose a country"
                 autoFocus
@@ -233,10 +244,7 @@ function App() {
         ]}
         rows={rows}
         slots={{ ...joySlots, toolbar: EditToolbar }} // to learn more about component slots, visit: https://mui.com/x/react-data-grid/components/#component-slots
-        sx={{
-          minHeight: 400,
-          "& .MuiDataGrid-virtualScroller": { flexGrow: 1 },
-        }}
+        autoHeight
       />
     </Container>
   );

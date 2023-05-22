@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 
-import { worker } from "./mocks/browser";
+import { worker } from "./mocks/browser.js";
 
 async function prepare() {
   if (import.meta.env.DEV) {
@@ -11,7 +11,7 @@ async function prepare() {
 }
 
 prepare().then(() => {
-  ReactDOM.createRoot(document.getElementById("root")).render(
+  ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
       <App />
     </React.StrictMode>
