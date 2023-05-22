@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
+import GlobalStyles from "@mui/joy/GlobalStyles";
 import Autocomplete from "@mui/joy/Autocomplete";
 import AutocompleteOption from "@mui/joy/AutocompleteOption";
 import Box from "@mui/joy/Box";
@@ -9,22 +10,31 @@ import ListItemContent from "@mui/joy/ListItemContent";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Container from "@mui/joy/Container";
 import Typography from "@mui/joy/Typography";
+import Sheet from "@mui/joy/Sheet";
 import {
   DataGrid,
-  GridToolbarContainer,
   useGridApiContext,
   GridActionsCellItem,
 } from "@mui/x-data-grid";
 import { unstable_joySlots as joySlots } from "@mui/x-data-grid/joy";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Trash2, PlusSquare } from "lucide-react";
 import countries from "./countries.json";
 
 function EditToolbar() {
   const apiRef = useGridApiContext();
   return (
-    <GridToolbarContainer>
+    <Sheet
+      variant="solid"
+      color="neutral"
+      invertedColors
+      sx={{ display: "flex", alignItems: "center", gap: 1, p: 1 }}
+    >
+      <Typography fontSize="lg" fontWeight="lg" sx={{ ml: 1 }}>
+        Product data table
+      </Typography>
+      <Box sx={{ flex: 1 }} />
       <Button
-        color="primary"
+        variant="soft"
         onClick={() => {
           const id = "temporary-id"; // `id` is required to create a new row;
           apiRef.current.updateRows([
@@ -41,10 +51,12 @@ function EditToolbar() {
             fieldToFocus: "manufacturedCountry",
           });
         }}
+        sx={{ borderRadius: "xs" }}
+        startDecorator={<PlusSquare />}
       >
         Add record
       </Button>
-    </GridToolbarContainer>
+    </Sheet>
   );
 }
 
@@ -62,8 +74,26 @@ function App() {
   }, []);
   return (
     <Container>
+      <GlobalStyles
+        styles={{
+          "& .lucide": {
+            color: "var(--Icon-color)",
+            margin: "var(--Icon-margin)",
+            fontSize: "var(--Icon-fontSize, 20px)",
+            width: "1em",
+            height: "1em",
+          },
+        }}
+      />
       <CssBaseline />
-      <Typography component="h1" level="h3" sx={{ my: 3 }}>
+      <Typography
+        variant="soft"
+        color="info"
+        component="h1"
+        level="h4"
+        textAlign="center"
+        sx={{ my: 3, mx: "auto", width: "max-content" }}
+      >
         Joy DataGrid - CRUD Workshop
       </Typography>
       <DataGrid
@@ -212,8 +242,9 @@ function App() {
             getActions: (params) => [
               <GridActionsCellItem
                 key="delete"
-                icon={<DeleteIcon />}
+                icon={<Trash2 />}
                 label="Delete"
+                color="error"
                 onClick={async () => {
                   setIsLoading(true);
                   await fetch(`/products/${params.row.id}`, {
@@ -226,16 +257,15 @@ function App() {
                     });
                   setIsLoading(false);
                 }}
-                color="inherit"
               />,
             ],
           },
         ]}
         rows={rows}
         slots={{ ...joySlots, toolbar: EditToolbar }} // to learn more about component slots, visit: https://mui.com/x/react-data-grid/components/#component-slots
+        autoHeight
         sx={{
-          minHeight: 400,
-          "& .MuiDataGrid-virtualScroller": { flexGrow: 1 },
+          "& .MuiDataGrid-footerContainer": { bgcolor: "ghostwhite" },
         }}
       />
     </Container>
