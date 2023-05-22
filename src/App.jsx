@@ -51,6 +51,11 @@ function App() {
             width: 160,
             editable: true,
             type: "date",
+            // to turn the string value (DATA.manufacturedDate) into a Date object
+            // so that the filter and sort function work properly
+            // to learn more, visit: https://mui.com/x/react-data-grid/column-definition/#value-getter
+            valueGetter: (params) => new Date(params.value),
+            // to format the date value from `valueGetter`.
             // to learn more, visit: https://mui.com/x/react-data-grid/column-definition/#value-formatter
             valueFormatter: (params) => new Date(params.value).toDateString(),
           },
