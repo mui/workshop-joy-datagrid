@@ -39,7 +39,7 @@ const handlers = [
     fetch("/products").then((res) => res.json()).then(console.log)
    */
   rest.get("/products", (req, res, ctx) => {
-    return res(ctx.delay(2000), ctx.json(db.product.getAll()));
+    return res(ctx.delay(700), ctx.json(db.product.getAll()));
   }),
   /**
    * To test this API, Try this in your browser console:
@@ -60,7 +60,7 @@ const handlers = [
   rest.post("/products", (req, res, ctx) => {
     try {
       const createdEntity = db.product.create(req.body);
-      return res(ctx.delay(2000), ctx.status(201), ctx.json(createdEntity));
+      return res(ctx.delay(700), ctx.status(201), ctx.json(createdEntity));
     } catch (error) {
       console.error(error.message);
       return res(
@@ -95,7 +95,7 @@ const handlers = [
         },
         data: req.body,
       });
-      return res(ctx.delay(2000), ctx.json(updatedEntity));
+      return res(ctx.delay(700), ctx.json(updatedEntity));
     } catch (error) {
       console.error(error.message);
       return res(
@@ -125,7 +125,7 @@ const handlers = [
         },
       },
     });
-    return res(ctx.delay(2000), ctx.json(deletedEntity));
+    return res(ctx.delay(700), ctx.json(deletedEntity));
   }),
   rest.all("*", (req) => {
     return req.passthrough();
